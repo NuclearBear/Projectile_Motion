@@ -1,0 +1,4 @@
+http://www.python-course.eu/tkinter_entry_widgets.php
+https://pythonprogramming.net/tkinter-adding-text-images/?completed=/tkinter-menu-bar-tutorial/
+http://stackoverflow.com/questions/22456445/how-to-imitate-this-table-using-tkinter
+http://effbot.org/tkinterbook
