@@ -103,6 +103,7 @@ class Window(Frame):
 			Air = {'Earth':1.225,'Moon':0,'Sun':0,'Mercury':0,'Venus':67,'Mars':0.02,'Jupiter':0.16,
 					'Saturn':0.19,'Uranus':0.42,'Neptune':0.45,'Pluto':0}
 			pAir = Air[self.ent['Gravity'].get()]   # kg/m^3 Density of Air
+													# for gas planets the density is taken from altitude of pressure of 1 bar
 		
 		A = pi*(di/2)**2 # cross section area of ball
 		K = (1/2)*pAir*Cd*A/mass # Total resultant force of drag
@@ -125,8 +126,10 @@ class Window(Frame):
 			y.append((-.5*g*(t**2)) + (v_y*t) + hi)
 		y[len(y)-1] = 0
 
+		# Adding values to table
 		DT.insert('', 'end', text=str(self.run), values=(str(int(max(x))), str(int(max(y))), str(int(t))))
 
+		# Using matplotlib to plot data in new window
 		plt.plot(x, y)
 		plt.xlabel('Distance (m)')
 		plt.ylabel('Height (m)')
@@ -138,6 +141,7 @@ class Window(Frame):
 
 	def nonint(self, input):
 		try:
+			# Will try to return input as a type float if not it will throw exception instead of an error
 			return float(self.ent[input].get())
 		except:
 			messagebox.showwarning("Non Int Value","Expected Input Type: Number")
