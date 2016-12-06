@@ -100,9 +100,9 @@ class Window(Frame):
 		if self.ent['Air'].get() == 0:
 			pAir = 0
 		else:
-			Air = {'Earth':1.225,'Moon':0,'Sun':0,'Mercury':0,'Venus':0,'Mars':0,'Jupiter':0,
-					'Saturn':0,'Uranus':0,'Neptune':0,'Pluto':0}
-			pAir = Air[self.ent['Gravity'].get()]   # kg/m^3 Density of Air at sea level at 15C
+			Air = {'Earth':1.225,'Moon':0,'Sun':0,'Mercury':0,'Venus':67,'Mars':0.02,'Jupiter':0.16,
+					'Saturn':0.19,'Uranus':0.42,'Neptune':0.45,'Pluto':0}
+			pAir = Air[self.ent['Gravity'].get()]   # kg/m^3 Density of Air
 		
 		A = pi*(di/2)**2 # cross section area of ball
 		K = (1/2)*pAir*Cd*A/mass # Total resultant force of drag
