@@ -39,14 +39,22 @@ class Window(Frame):
 		# Initializing the data table
 		columns = ('Max Distance', 'Max Height', 'Time', 'Air Resistance?', 'Initial Height', 'Angle',
 						'Velocity', 'Diameter', 'Mass', 'Drag Coefficient', 'Planet')
-		DT = Treeview(self)
+		table = Frame(self)
+		table.pack(side=BOTTOM, fill=BOTH)
+		
+		self.scrollbar = Scrollbar(table)
+		self.scrollbar.pack(side=RIGHT, fill=Y)
+		
+		DT = Treeview(table, yscrollcommand=self.scrollbar.set)
 		DT['columns'] = columns
 		DT.heading("#0", text='Run Number', anchor='w')
 		DT.column("#0", anchor="w", width=100)
 		for column in columns:
 			DT.heading(column, text=column)
 			DT.column(column, anchor='center', width=100)
-			DT.pack(side=BOTTOM,anchor='s')
+		DT.pack(side=BOTTOM,anchor='s')
+		
+		self.scrollbar.config(command=DT.yview)
 
 		# Setting up inputs in a dict and 
 		fields = ('Drag Coefficient','Mass (kg)', 'Diameter (m)', 'Velocity (m/s)', 'Angle (degrees)', 'Initial Height (m)')
