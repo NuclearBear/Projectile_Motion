@@ -70,9 +70,6 @@ class Window(Frame):
 		graphButton = Button(self, text="Graph on Current",command=(lambda: self.graph_array(DT)))
 		graphButton.pack(side=TOP, anchor='n')
 
-		graphButton = Button(self, text="Show Error Box Test",command=(lambda: self.Error_nonint('Velocity (m/s)')))
-		graphButton.pack(side=TOP, anchor='n')
-
 		lab.pack(side=LEFT,anchor='s')
 		drop.pack(side=LEFT,anchor='s')
 		C1.pack(side=LEFT,anchor='s',padx=20)
