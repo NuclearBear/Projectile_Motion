@@ -79,12 +79,12 @@ class Window(Frame):
 		self.run += 1
 
 		# Setting varible for calculations from inputs
-		vi = self.nonint('Velocity (m/s)')#float(self.ent['Velocity (m/s)'].get())
-		ai = float(self.ent['Angle (degrees)'].get())
-		hi = float(self.ent['Height (m)'].get())
-		mass = float(self.ent['Mass (kg)'].get())
-		di = float(self.ent['Diameter (m)'].get())
-		Cd = float(self.ent['Drag Coefficient'].get())
+		vi = self.nonint('Velocity (m/s)')
+		ai = self.nonint('Angle (degrees)')
+		hi = self.nonint('Height (m)')
+		mass = self.nonint('Mass (kg)')
+		di = self.nonint('Diameter (m)')
+		Cd = self.nonint('Drag Coefficient')
 
 		# Selection of gravity based off planet
 		gravity = {'Earth':9.81,'Moon':1.623,'Sun':274.88,'Mercury':3.728,'Venus':8.868,'Mars':3.689,'Jupiter':24.82,
