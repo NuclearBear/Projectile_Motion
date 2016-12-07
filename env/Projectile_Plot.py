@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
-import numpy
 from math import *
 
 import matplotlib
@@ -38,7 +37,8 @@ class Window(Frame):
 		self.pack(fill=BOTH, expand=1)
 		
 		# Initializing the data table
-		columns = ('Max Distance (m)', 'Max Height (m)', 'Time (sec)')
+		columns = ('Max Distance', 'Max Height', 'Time', 'Air Resistance?', 'Initial Height', 'Angle',
+						'Velocity', 'Diameter', 'Mass', 'Drag Coefficient', 'Planet')
 		DT = Treeview(self)
 		DT['columns'] = columns
 		DT.heading("#0", text='Run Number', anchor='w')
@@ -49,17 +49,17 @@ class Window(Frame):
 			DT.pack(side=BOTTOM,anchor='s')
 
 		# Setting up inputs in a dict and 
-		fields = ('Drag Coefficient','Mass (kg)', 'Diameter (m)', 'Velocity (m/s)', 'Angle (degrees)', 'Height (m)')
+		fields = ('Drag Coefficient','Mass (kg)', 'Diameter (m)', 'Velocity (m/s)', 'Angle (degrees)', 'Initial Height (m)')
 		inputs = ["0.3","2",".25","100","45","0"]
 		self.ent = makeform(self, fields, inputs)
 
 		# Label and drop down menu
 		lab = Label(self,text='Planet Gravity')
 		planets = StringVar()
-		planets.set('Earth')
 		self.ent['Gravity'] = planets # adds selection varible to dict
-		drop = OptionMenu(self,planets,'Earth','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto')
-		
+		drop = OptionMenu(self,planets, 'Select','Earth','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto')
+		planets.set('Earth')
+
 		# Air Risistance checkbox
 		self.ent['Air'] = IntVar()
 		C1 = Checkbutton(self, text='Air Resistance', variable=self.ent['Air'])
@@ -81,7 +81,7 @@ class Window(Frame):
 		# Setting varible for calculations from inputs
 		vi = self.nonint('Velocity (m/s)')
 		ai = self.nonint('Angle (degrees)')
-		hi = self.nonint('Height (m)')
+		hi = self.nonint('Initial Height (m)')
 		mass = self.nonint('Mass (kg)')
 		di = self.nonint('Diameter (m)')
 		Cd = self.nonint('Drag Coefficient')
@@ -89,17 +89,20 @@ class Window(Frame):
 		# Selection of gravity based off planet
 		gravity = {'Earth':9.81,'Moon':1.623,'Sun':274.88,'Mercury':3.728,'Venus':8.868,'Mars':3.689,'Jupiter':24.82,
 					'Saturn':10.497,'Uranus':8.731,'Neptune':11.18,'Pluto':0.657}
-		g = gravity[self.ent['Gravity'].get()]
+		planet = self.ent['Gravity'].get()
+		g = gravity[planet]
 
 		if clear == 1:
 			plt.clf()
 
 		if self.ent['Air'].get() == 0:
 			pAir = 0
+			use = 'No'
 		else:
 			Air = {'Earth':1.225,'Moon':0,'Sun':0,'Mercury':0,'Venus':67,'Mars':0.02,'Jupiter':0.16,
 					'Saturn':0.19,'Uranus':0.42,'Neptune':0.45,'Pluto':0}
-			pAir = Air[self.ent['Gravity'].get()]   # kg/m^3 Density of Air
+			pAir = Air[self.ent['Gravity'].get()]
+			use = 'Yes'   							# kg/m^3 Density of Air
 													# for gas planets the density is taken from altitude of pressure of 1 bar
 		
 		A = pi*(di/2)**2 # cross section area of ball
@@ -124,7 +127,8 @@ class Window(Frame):
 		y[len(y)-1] = 0
 
 		# Adding values to table
-		DT.insert('', 'end', text=str(self.run), values=(str(int(max(x))), str(int(max(y))), str(int(t))))
+		DT.insert('', 'end', text=str(self.run), values=('%10.2f m' % max(x), '%10.2f m' % max(y), '%10.2f s' % t,
+				use, '%d m' % hi, '%d˚' % ai, '%d m/s' % vi, '%d m' % di, '%d kg' % mass, Cd, planet))
 
 		# Using matplotlib to plot data in new window
 		plt.plot(x, y)
